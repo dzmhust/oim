@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+
+<!-- =============================================================== -->
+<!-- Configure the Jetty Server                                      -->
+<!--                                                                 -->
+<!-- Documentation of this file format can be found at:              -->
+<!-- http://wiki.eclipse.org/Jetty/Reference/jetty.xml_syntax        -->
+<!--                                                                 -->
+<!-- Additional configuration files are available in $JETTY_HOME/etc -->
+<!-- and can be mixed in.  For example:                              -->
+<!--   java -jar start.jar etc/jetty-ssl.xml                         -->
+<!--                                                                 -->
+<!-- See start.ini file for the default configuraton files           -->
+<!-- =============================================================== -->
+
+
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+
+	<!-- =========================================================== -->
+	<!-- Server Thread Pool                                          -->
+	<!-- =========================================================== -->
+	<Set name="ThreadPool">
+		<!-- Default queued blocking threadpool -->
+		<New class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+			<Set name="minThreads">10</Set>
+			<Set name="maxThreads">200</Set>
+			<Set name="detailedDump">false</Set>
+		</New>
+	</Set>
+
+	<!-- =========================================================== -->
+	<!-- Set handler Collection Structure                            --> 
+	<!-- =========================================================== -->
+	<Set name="handler">
+		<New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
+			<Set name="handlers">
+				<Array type="org.eclipse.jetty.server.Handler">
+					<Item>
+						<New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
+					</Item>
+					<Item>
+						<New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
+					</Item>
+					<Item>
+						<New class="org.mortbay.jetty.webapp.WebAppContext">    
+							<Set name="contextPath">/hko/upload</Set>    
+							<Set name="resourceBase">E:/upload/2016-01-16</Set>    
+							<Call name="addServlet">    
+								<Arg>org.mortbay.jetty.servlet.DefaultServlet</Arg>    
+								<Arg>/test</Arg>    
+							</Call>    
+						</New>   
+					</Item>
+					<Item>
+						<New id="uploadHanlder" class="org.eclipse.jetty.webapp.WebAppContext">
+							<Set name="contextPath">/upload</Set>    
+        					<Set name="resourceBase">E:/upload</Set>
+						</New>
+					</Item>
+				</Array>
+			</Set>
+		</New>
+	</Set>
+    
+	<Call name="addBean">
+		<Arg>
+			<New id="DeploymentManager" class="org.eclipse.jetty.deploy.DeploymentManager">
+				<Set name="contexts">
+					<Ref id="Contexts" />
+				</Set>
+				<Call name="setContextAttribute">
+					<Arg>org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern</Arg>
+					<Arg>.*/.*jsp-api-[^/]*\.jar$|.*/.*jsp-[^/]*\.jar$|.*/.*taglibs[^/]*\.jar$</Arg>
+				</Call>
+          
+          
+				<!-- Add a customize step to the deployment lifecycle -->
+				<!-- uncomment and replace DebugBinding with your extended AppLifeCycle.Binding class--> 
+				<Call name="insertLifeCycleNode">
+					<Arg>deployed</Arg>
+					<Arg>starting</Arg>
+					<Arg>customise</Arg>
+				</Call>
+				<Call name="addLifeCycleBinding">
+					<Arg>
+						<New class="org.eclipse.jetty.deploy.bindings.DebugBinding">
+							<Arg>customise</Arg>
+						</New>
+					</Arg>
+				</Call>
+          
+          
+			</New>
+		</Arg>
+	</Call>    
+
+	<!-- =========================================================== -->
+	<!-- extra options                                               -->
+	<!-- =========================================================== -->
+	<Set name="stopAtShutdown">true</Set>
+	<Set name="sendServerVersion">true</Set>
+	<Set name="sendDateHeader">true</Set>
+	<Set name="gracefulShutdown">1000</Set>
+	<Set name="dumpAfterStart">false</Set>
+	<Set name="dumpBeforeStop">false</Set>
+
+</Configure>

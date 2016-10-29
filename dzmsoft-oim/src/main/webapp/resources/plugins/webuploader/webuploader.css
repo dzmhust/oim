@@ -1,0 +1,73 @@
+.webuploader-container {
+	position: relative;
+}
+
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px, 1px, 1px, 1px); /* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+}
+
+.webuploader-pick {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 5px;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.webuploader-pick-hover {
+	background: #00a2d4;
+}
+
+.webuploader-pick-disable {
+	opacity: 0.6;
+	pointer-events: none;
+}
+.btns{
+	float: left;
+}
+.info {
+	border: 1px solid #151515;
+	padding-left: 4px;
+	width: 60%;
+	float: left;
+	height: 22px;
+	line-height: 22px;
+    margin-right: 30px;
+    position: relative;
+    border-radius:5px;
+    margin-bottom: 5px;
+}
+.abbr {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width:70%;
+  float: left;
+}
+.delete{
+	background: url("../../images/tabs_icons.png") no-repeat -34px center;
+	height: 100%;
+	position: absolute;
+	width: 18px;
+	left: 90%;
+	cursor: pointer;	
+	opacity: 0.6;
+}
+.delete:HOVER {
+	opacity: 1;
+}
+.state{
+	  height: 24px;
+  line-height: 24px;
+  margin-bottom: 5px;
+}
+.uploader-list{
+	width:100%;
+	float: left;
+}

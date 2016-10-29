@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+.updateimg{
+	float: left;
+    width: 120px;
+    height: 150px;
+    position: relative;
+    margin-right: 0px;
+    display: inline;
+}
+.updateimg img{
+	width:120px;
+	height:150px;
+}
+.file{
+	width: 120px;
+    height: 150px;
+    line-height: 65px;
+    position: absolute;
+    top: 0;
+    filter: alpha(opacity:0);
+    opacity: 0;
+    -moz-opacity: 0;
+    cursor: pointer
+}
+.select{
+    border-radius: 5px;
+    height: 24px;
+}

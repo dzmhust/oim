@@ -1,0 +1,44 @@
+.section1{
+    background: url("../images/login-bg.png") no-repeat;
+    background-size: 100% 100%;
+}
+.login-content{
+    height: 500px;
+    width: 500px;
+    background:rgba(256,256,256,0.4);
+    margin: auto;
+    border-radius: 15px;
+}
+.back-tip{
+    color: #a94442;
+    margin-bottom: 5px;
+}
+.login-title{
+    font-size: 30px;
+    margin: 40px 0;
+}
+.input-lg{
+    background: rgba(255,255,255,0.4);
+    border: 1px solid #444444;
+}
+.green-font {
+    color: #01a14e;
+}
+.has-feedback-left {
+    left: 0;
+}
+.has-feedback>input {
+    padding-left: 30px;
+}
+.logo{
+	position: absolute;
+    top: 10%;
+    left: 20%;
+}
+img#img_captcha{
+	width: 120px;
+    height: 45px;
+}
+input#captcha{
+	padding:0 10px;
+}

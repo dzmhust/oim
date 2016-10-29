@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+	<!-- 本地数据库jdbc驱动包路径 -->
+	<classPathEntry location="D:/Program Files (x86)/apache-maven-3.1.1/repository/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar" />
+	<!-- jdbc数据库连接配置 -->
+	<context id="mysqlTables" targetRuntime="MyBatis3">
+		<property name="mergeable" value="false"></property>
+  	
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/walle"
+			userId="root"
+			password="root">
+		</jdbcConnection>
+    
+		<javaTypeResolver >
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- targetPackage为本地实体类项目相对路径    targetProject为项目包绝对路径-->
+	
+		<javaModelGenerator targetPackage="com.dzmsoft.oim.finance.pojo" targetProject="dzmsoft-oim-finance">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.dzmsoft.oim.finance.mapping"  targetProject="dzmsoft-oim-finance">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.dzmsoft.oim.finance.dao"  targetProject="dzmsoft-oim-finance">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<table schema="" tableName="oim_payment_bill"></table>
+		<table schema="" tableName="oim_recipient_bill"></table>
+	<!-- 	<table schema="" tableName="oim_household_price_rule_region"></table>
+		<table schema="" tableName="oim_newhome_price_rule"></table>
+		<table schema="" tableName="oim_newhome_price_rule_region"></table>
+		<table schema="" tableName="oim_clean_bag"></table>
+		<table schema="" tableName="oim_clean_bag_line"></table>
+		<table schema="" tableName="oim_clean_bag_region"></table>
+		<table schema="" tableName="oim_person_require"></table>
+		<table schema="" tableName="oim_person_require_line"></table>
+		<table schema="" tableName="oim_person_require_region"></table>
+		<table schema="" tableName="oim_payment_bill"></table>
+		<table schema="" tableName="oim_recipient_bill"></table> -->
+		<!-- <table schema="" tableName="oim_ad_position"></table>
+		<table schema="" tableName="oim_ad_region"></table>
+		<table schema="" tableName="oim_city"></table>
+		<table schema="" tableName="oim_employee"></table>
+		<table schema="" tableName="oim_mall_category"></table>
+		<table schema="" tableName="oim_member"></table>
+		<table schema="" tableName="oim_member_address"></table>
+		<table schema="" tableName="oim_supplier"></table> -->
+	</context>
+</generatorConfiguration>
