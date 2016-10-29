@@ -122,14 +122,14 @@
 		</dependency>
 		<dependency>
 			<groupId>com.dzmsoft</groupId>
-			<artifactId>dzmsoft-acs-inner</artifactId>
-			<version>1.0.1</version>
+			<artifactId>dzmsoft.framework.gencode</artifactId>
+			<version>2.0.0</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.dzmsoft</groupId>
-			<artifactId>dzmsoft.framework.gencode</artifactId>
-			<version>1.0.0</version>
-			<scope>test</scope>
+			<artifactId>dzmsoft-ucs-api</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 	</dependencies>
 

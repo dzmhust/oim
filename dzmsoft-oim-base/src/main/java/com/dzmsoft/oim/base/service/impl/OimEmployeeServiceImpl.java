@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dzmsoft.acs.inner.service.UcsService;
 import com.dzmsoft.oim.base.common.OimBaseConstant;
 import com.dzmsoft.oim.base.dao.OimEmployeeMapper;
 import com.dzmsoft.oim.base.pojo.OimEmployee;
@@ -27,8 +26,6 @@ public class OimEmployeeServiceImpl implements OimEmployeeService{
 
 	@Autowired
 	private OimEmployeeMapper oimEmployeeMapper;
-	@Autowired
-    private UcsService ucsService;
 	
 	@Override
 	public String selectTopIndex() {
@@ -94,7 +91,7 @@ public class OimEmployeeServiceImpl implements OimEmployeeService{
 	public int updateByPrimaryKeySelective(OimEmployee record){
         if (!record.getUserType().equals(record.getUserType())){
             // 改变用户类型时，需要修改用户中心中的角色、权限
-            ucsService.changeUserType(record.getMobile(), record.getUserType(), record.getUserType());
+//            ucsService.changeUserType(record.getMobile(), record.getUserType(), record.getUserType());
         }
 		return oimEmployeeMapper.updateByPrimaryKeySelective(record);
 	}

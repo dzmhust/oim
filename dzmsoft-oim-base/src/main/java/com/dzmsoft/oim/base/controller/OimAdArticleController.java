@@ -48,8 +48,8 @@ public class OimAdArticleController extends BaseController{
     private String uploadPath;
     @Value("${image.maxsize}")
     private int image_maxsize;
-    @Value("${img.ratio.three}")
-    private double img_ratio_three;
+    @Value("${img_ratio}")
+    private Double img_ratio;
 
 	/**
 	 * 显示主列表页面
@@ -127,14 +127,14 @@ public class OimAdArticleController extends BaseController{
             String picName = pcpcTitlePicName.getOriginalFilename();
             String fileName = FileUtil.spliceFileName(picName, true, true);
             FileUtil.uploadImage(pcpcTitlePicName, uploadPath, fileName, image_maxsize,
-                    img_ratio_three);
+                    img_ratio);
             oimAdArticle.setPcTitlePic(fileName);
         }
         if (appTitlePicName != null && appTitlePicName.getSize() > 0) {
             String picName = appTitlePicName.getOriginalFilename();
             String fileName = FileUtil.spliceFileName(picName, true, true);
             FileUtil.uploadImage(appTitlePicName, uploadPath, fileName, image_maxsize,
-                    img_ratio_three);
+                    img_ratio);
             oimAdArticle.setAppTitlePic(fileName);
         }
     }

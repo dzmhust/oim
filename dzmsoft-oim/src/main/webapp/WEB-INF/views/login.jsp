@@ -43,14 +43,14 @@
 							<div class="col-md-offset-1">
 								<img alt="验证码" src="${ctx}/resources/images/kaptcha.jpg" title="点击更换" id="img_captcha" onclick="javascript:refreshCaptcha();" />
 							</div>
-                            <div class="col-md-12">
+                            <%-- <div class="col-md-12">
                                 <div class="form-group has-feedback checkbox">
                                     <div class="checkbox">
                                         <label> <input type="checkbox" name="rememberMe" id="rememberMe">记住我</a>
                                         </label> <span class="pull-right"><a href="${ctx }/resetPwd/step1">忘记密码</a></span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --%>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success btn-lg btn-block"

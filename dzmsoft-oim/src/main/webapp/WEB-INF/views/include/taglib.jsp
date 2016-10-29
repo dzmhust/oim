@@ -12,5 +12,4 @@
 	var ctx = '${ctx}';
 	var ctxResources = '${ctxResources}';
 	var ccs_ctx = '${fns:getCcs_ctx()}';
-	var pbs_ctx = '${fns:getPbs_ctx()}';
 </script>

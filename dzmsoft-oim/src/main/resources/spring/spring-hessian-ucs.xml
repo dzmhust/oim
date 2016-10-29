@@ -3,11 +3,24 @@
 	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-lazy-init="false">
-	<description>Spring Hession 服务端配置</description>
-	<!-- 同步传感器数据采集 -->
-	<!-- <bean name="/syncMonitorAutoCollectData" class="org.springframework.remoting.caucho.HessianServiceExporter">
-	    <property name="service" ref="syncMonitorAutoCollectDataServiceImpl"/>
-	    <property name="serviceInterface" value="com.dzmsoft.monitor.api.service.SyncMonitorAutoCollectDataService"/>
-	</bean> -->
+	<description>Spring Hession ucs客户端配置</description>
+	<!-- 权限接口 -->
+	<bean id="ucsPermissionApiService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	    <property name="serviceUrl">
+	        <value>http://localhost:8091/ucs/hessian/ucsPermissionApi</value>
+	    </property>
+	    <property name="serviceInterface">
+	        <value>com.dzmsoft.ucs.api.service.UcsPermissionApiService</value>
+	    </property>
+	</bean>
+	<!-- 用户接口 -->
+	<bean id="ucsUserApiService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	    <property name="serviceUrl">
+	        <value>http://localhost:8091/ucs/hessian/ucsUserApi</value>
+	    </property>
+	    <property name="serviceInterface">
+	        <value>com.dzmsoft.ucs.api.service.UcsUserApiService</value>
+	    </property>
+	</bean>
 	
 </beans>

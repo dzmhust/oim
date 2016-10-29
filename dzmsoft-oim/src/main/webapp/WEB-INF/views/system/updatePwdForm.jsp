@@ -8,7 +8,7 @@
 	<%@ include file="/WEB-INF/views/include/easyui.jsp"%>
 </head>
 <body>
-	<form id="updatePwdform" action="${ctx }/ucs/updatePwd" method="post">
+	<form id="updatePwdform" action="${ctx }/updatePwd" method="post">
 		<table class="formTable" width="100%" border="0" cellspacing="0" cellpadding="5" >
 			<tr>
 				<td style="width:25%;text-align:right">用户帐号：</td>

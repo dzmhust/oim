@@ -38,8 +38,8 @@ public class OimMallCategoryController extends BaseController {
     @Autowired
     private OimMallCategoryService oimMallCategoryService;
 
-    @Value("${img.ratio.three}")
-    private double img_ratio_three;
+    @Value("${img_ratio}")
+    private Double img_ratio;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -122,7 +122,7 @@ public class OimMallCategoryController extends BaseController {
                     uploadPath,
                     fileName,
                     image_maxsize,
-                    img_ratio_three);
+                    img_ratio);
             oimMallCategory.setSiteResourcePath(fileName);
         }
         if (phoneResourcePathName != null && phoneResourcePathName.getSize() > 0) {
@@ -133,7 +133,7 @@ public class OimMallCategoryController extends BaseController {
                     uploadPath,
                     fileName,
                     image_maxsize,
-                    img_ratio_three);
+                    img_ratio);
             oimMallCategory.setPhoneResourcePath(fileName);
         }
     }

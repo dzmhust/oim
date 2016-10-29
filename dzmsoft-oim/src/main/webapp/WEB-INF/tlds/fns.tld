@@ -14,17 +14,10 @@
   <function>
     <description>获取配置中心上下文路径</description>
     <name>getCcs_ctx</name>
-    <function-class>com.dzmsoft.acs.inner.common.InnerStaticConfig</function-class>
+    <function-class>com.dzmsoft.oim.inner.InnerStaticConfig</function-class>
     <function-signature>java.lang.String getCcs_ctx()</function-signature>
     <example>${fns:getCcs_ctx()}</example>
   </function>
   
-  <function>
-    <description>获取主材商管理系统上下文路径</description>
-    <name>getPbs_ctx</name>
-    <function-class>com.dzmsoft.acs.inner.common.InnerStaticConfig</function-class>
-    <function-signature>java.lang.String getPbs_ctx()</function-signature>
-    <example>${fns:getPbs_ctx()}</example>
-  </function>
   
 </taglib>

@@ -52,7 +52,7 @@ function getMenus(){
 	$.ajax({
 		async:false,
 		type:'get',
-		url:ctx+"/ucs/getMenus/OIM",
+		url:ctx+"/getMenus",
 		success: function(data){
 			var menuData={data:data};
 			var html = template('menu', menuData);

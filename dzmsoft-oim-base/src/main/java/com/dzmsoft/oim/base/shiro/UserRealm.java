@@ -23,9 +23,11 @@ import com.dzmsoft.framework.base.util.CheckEmptyUtil;
 import com.dzmsoft.framework.base.web.exception.CaptchaException;
 import com.dzmsoft.framework.base.web.mvc.pojo.ShiroUser;
 import com.dzmsoft.framework.base.web.shiro.UsernamePasswordCaptchaToken;
-import com.dzmsoft.ucs.base.pojo.UcsUser;
-import com.dzmsoft.ucs.base.service.UcsPermissionService;
-import com.dzmsoft.ucs.base.service.UcsUserService;
+import com.dzmsoft.ucs.api.dto.UcsUserDto;
+import com.dzmsoft.ucs.api.service.UcsPermissionApiService;
+import com.dzmsoft.ucs.api.service.UcsUserApiService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * 用户登录授权service(shrioRealm)
@@ -33,14 +35,19 @@ import com.dzmsoft.ucs.base.service.UcsUserService;
  * @author dzm
  */
 public class UserRealm extends AuthorizingRealm {
-    @Autowired
-    private UcsPermissionService ucsPermissionService;
-    @Autowired
-    private UcsUserService ucsUserService;
     @Value("${hashAlgorithmName}")
     private String hashAlgorithmName;
     @Value("${hashIterations}")
     private int hashIterations;
+    @Value("${domain}")
+    private String domain;
+    @Autowired
+    private UcsPermissionApiService ucsPermissionApiService;
+    @Autowired
+    private UcsUserApiService ucsUserApiService;
+    @Autowired
+    private Gson gson;
+    
 
     /**
      * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用.
@@ -50,7 +57,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
-        List<String> ucsPermissions = ucsPermissionService.selectPermissions(shiroUser.getId());
+        List<String> ucsPermissions = ucsPermissionApiService.selectPermissions(shiroUser.getId(), domain);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         if (!CheckEmptyUtil.isEmpty(ucsPermissions)){
         	for(String permission:ucsPermissions){
@@ -74,22 +81,24 @@ public class UserRealm extends AuthorizingRealm {
         } catch(Exception e){
             throw new IllegalArgumentException("参数异常");
         }
-        // 根据用户名获取账号信息
-        UcsUser ucsUser = ucsUserService.selectByUsername(authcToken.getUsername());
-        // 验证码校验
-        if (null == ucsUser){
-            throw new UnknownAccountException();//没找到帐号
-        }
-        String ciphertextPassword = new SimpleHash(hashAlgorithmName,authcToken.getPassword(),ByteSource.Util.bytes(ucsUser.getSalt()),hashIterations).toHex();
-        if (!ciphertextPassword.equals(ucsUser.getPassword())){
-            throw new UnknownAccountException();//没找到帐号
-        }
-        // 验证用户状态的合法性
-        if (!BaseConstant.Status.ENABLE.equals(ucsUser.getStatus())){
-            throw new IncorrectCredentialsException("授权失败");
-        }
-        // 验证码校验
+     // 校验验证码是否正确
         if (doCaptchaValidate(authcToken)) {
+         // 根据用户名获取账号信息
+            String ucsUserStr = ucsUserApiService.selectByUsername(authcToken.getUsername());
+            // 验证码校验
+            if (CheckEmptyUtil.isEmpty(ucsUserStr)){
+                throw new UnknownAccountException();//没找到帐号
+            }
+            UcsUserDto ucsUser = gson.fromJson(ucsUserStr, new TypeToken<UcsUserDto>() {}.getType());
+            String ciphertextPassword = new SimpleHash(hashAlgorithmName,authcToken.getPassword(),ByteSource.Util.bytes(ucsUser.getSalt()),hashIterations).toHex();
+            if (!ciphertextPassword.equals(ucsUser.getPassword())){
+                throw new UnknownAccountException();//没找到帐号
+            }
+            // 验证用户状态的合法性
+            if (!BaseConstant.Status.ENABLE.equals(ucsUser.getStatus())){
+                throw new IncorrectCredentialsException("授权失败");
+            }
+            //
             ShiroUser shiroUser = new ShiroUser(ucsUser.getId(), ucsUser.getUsername(),
                     ucsUser.getName());
             return new SimpleAuthenticationInfo(shiroUser, ucsUser.getPassword(),

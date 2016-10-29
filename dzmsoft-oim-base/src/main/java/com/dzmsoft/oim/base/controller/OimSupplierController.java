@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dzmsoft.acs.inner.dto.RegisterUserDto;
-import com.dzmsoft.acs.inner.service.UcsService;
 import com.dzmsoft.framework.base.exception.FileException;
 import com.dzmsoft.framework.base.web.mvc.controller.BaseController;
 import com.dzmsoft.framework.base.web.mvc.dao.MybatisExample;
@@ -48,10 +46,8 @@ public class OimSupplierController extends BaseController{
     private String uploadPath;
     @Value("${image.maxsize}")
     private int image_maxsize;
-    @Autowired
-    private UcsService ucsService;
-    @Value("${img.ratio.three}")
-    private double img_ratio_three;
+    @Value("${img_ratio}")
+    private Double img_ratio;
 
 	/**
 	 * 显示主列表页面
@@ -104,26 +100,36 @@ public class OimSupplierController extends BaseController{
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse add(OimSupplier oimSupplier, MultipartFile logoPicName){
-	 // 通过手机号向UCS发起注册账号请求
-        RegisterUserDto registerUserDto = ucsService.commonRegister(
-                oimSupplier.getChiefPhone(),
-                oimSupplier.getSupplierType(),
-                oimSupplier.getName(),
-                oimSupplier.getChiefPhone());
-        if (registerUserDto.isSuccess()){
-            try {
-                saveFile(oimSupplier, logoPicName);
-            } catch (FileException e) {
-                return new BaseResponse(false, e.getMessage());
-            }
-            oimSupplier.setUcsId(registerUserDto.getUcsId());
-            oimSupplier.setStatus(OimBaseConstant.PartnerStatus.JOIN);
-            int flag = oimSupplierService.insertSelective(oimSupplier);
-            BaseResponse baseResponse = flag>0?new BaseResponse(true,"新增成功"):new BaseResponse(false, "新增失败");
-            return baseResponse;
-        } else{
-            return new BaseResponse(false, registerUserDto.getMsg());
+	    try {
+            saveFile(oimSupplier, logoPicName);
+        } catch (FileException e) {
+            return new BaseResponse(false, e.getMessage());
         }
+//        oimSupplier.setUcsId(registerUserDto.getUcsId());
+        oimSupplier.setStatus(OimBaseConstant.PartnerStatus.JOIN);
+        int flag = oimSupplierService.insertSelective(oimSupplier);
+        BaseResponse baseResponse = flag>0?new BaseResponse(true,"新增成功"):new BaseResponse(false, "新增失败");
+        return baseResponse;
+	 // 通过手机号向UCS发起注册账号请求
+//        RegisterUserDto registerUserDto = ucsService.commonRegister(
+//                oimSupplier.getChiefPhone(),
+//                oimSupplier.getSupplierType(),
+//                oimSupplier.getName(),
+//                oimSupplier.getChiefPhone());
+//        if (registerUserDto.isSuccess()){
+//            try {
+//                saveFile(oimSupplier, logoPicName);
+//            } catch (FileException e) {
+//                return new BaseResponse(false, e.getMessage());
+//            }
+//            oimSupplier.setUcsId(registerUserDto.getUcsId());
+//            oimSupplier.setStatus(OimBaseConstant.PartnerStatus.JOIN);
+//            int flag = oimSupplierService.insertSelective(oimSupplier);
+//            BaseResponse baseResponse = flag>0?new BaseResponse(true,"新增成功"):new BaseResponse(false, "新增失败");
+//            return baseResponse;
+//        } else{
+//            return new BaseResponse(false, registerUserDto.getMsg());
+//        }
 		
 	}
 	
@@ -132,7 +138,7 @@ public class OimSupplierController extends BaseController{
             String picName = logoPicName.getOriginalFilename();
             String fileName = FileUtil.spliceFileName(picName, true, true);
             FileUtil.uploadImage(logoPicName, uploadPath, fileName, image_maxsize,
-                    img_ratio_three);
+                    img_ratio);
             oimSupplier.setLogoPic(fileName);
         }
     }
